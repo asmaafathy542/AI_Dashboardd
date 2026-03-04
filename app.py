@@ -180,9 +180,9 @@ if selected == "Dashboard":
 )
 
         fig_pie.update_traces(
-            textinfo='percent+label',  # يظهر النسبة المئوية والاسم
+            textinfo='percent+label', 
             textfont_size=14,
-            pull=[0.05, 0.05, 0.05, 0.05]  # يرفع كل Slice قليلًا للوضوح
+            pull=[0.05, 0.05, 0.05, 0.05] 
 )
 
         fig_pie.update_layout(
@@ -203,20 +203,31 @@ elif selected == "Customer Insights":
     with c1:
         st.subheader("Customer Reviews: Positive vs Negative")
 
-        fig_reviews = px.bar(
-            filtered_df,
-            x='Date',
-            y='Visits',
-            color='Review_Sentiment',
-            color_discrete_map={
-                'Positive': '#28A745',
-                'Negative': '#DC3545'
-            },
-            barmode='stack',
-            template="plotly_dark"
-        )
+        filtered_df_week = filtered_df.copy()
+        filtered_df_week['Week'] = filtered_df_week['Date'].dt.isocalendar().week
+        agg_reviews = filtered_df_week.groupby(['Week','Review_Sentiment'])['Visits'].sum().reset_index()
 
-        st.plotly_chart(fig_reviews, use_container_width=True)
+        fig_reviews = px.bar(
+          agg_reviews,
+          x='Week',
+          y='Visits',
+          color='Review_Sentiment',
+          barmode='stack',
+          color_discrete_map={
+              'Positive': '#28A745',
+              'Negative': '#DC3545'
+    },
+          template="plotly_dark",
+          hover_data={'Visits':True, 'Review_Sentiment':True, 'Week':True}
+)
+
+        fig_reviews.update_layout(
+          xaxis_title="Week Number",
+          yaxis_title="Total Visits",
+          margin=dict(t=20, b=30, l=40, r=20)
+)
+
+    st.plotly_chart(fig_reviews, use_container_width=True)
 
     with c2:
         st.subheader("Review Ratings Distribution")
