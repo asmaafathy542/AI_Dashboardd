@@ -135,17 +135,17 @@ if selected == "Dashboard":
             y='Value',
             color='Period',
             barmode='group',
-            text='Value',  # تظهر القيمة مباشرة على كل عمود
+            text='Value', 
             text_auto='.2s',
             color_discrete_map={
                 'Selected Period': '#ff4b4b',
-                'Previous Period': '#adb5bd'  # بدل الرمادي الغامق، أفتح شوي
+                'Previous Period': '#adb5bd' 
     },
             template="plotly_dark"
 )
 
         fig_growth.update_traces(
-            textposition='outside',  # تظهر الأرقام فوق الأعمدة
+            textposition='outside',  
             hovertemplate='%{x} - %{y} (%{color})<extra></extra>'
 )
 
@@ -166,13 +166,30 @@ if selected == "Dashboard":
         })
 
         fig_pie = px.pie(
-            query_types,
-            values='Val',
-            names='Type',
-            hole=0.5,
-            color_discrete_sequence=px.colors.sequential.RdBu
-        )
-        fig_pie.update_layout(showlegend=False, margin=dict(t=0, b=0, l=0, r=0))
+           query_types,
+           values='Val',
+           names='Type',
+           hole=0.5,
+           color='Type',
+           color_discrete_map={
+                'Menu': '#FF6B6B',
+                'Hours': '#4ECDC4',
+                'Location': '#FFD93D',
+                'Pricing': '#556270'
+    }
+)
+
+        fig_pie.update_traces(
+            textinfo='percent+label',  # يظهر النسبة المئوية والاسم
+            textfont_size=14,
+            pull=[0.05, 0.05, 0.05, 0.05]  # يرفع كل Slice قليلًا للوضوح
+)
+
+        fig_pie.update_layout(
+            legend_title_text='Query Type',
+            margin=dict(t=20, b=20, l=20, r=20),
+            height=400
+)
         st.plotly_chart(fig_pie, use_container_width=True)
 
 # =========================
