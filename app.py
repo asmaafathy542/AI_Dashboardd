@@ -198,58 +198,39 @@ if selected == "Dashboard":
 elif selected == "Customer Insights":
     st.title("🤖 Customer & Review Analysis")
 
-    c1, c2 = st.columns([3, 1])
-
+    c1, c2 = st.columns(2)
+    
     with c1:
-        st.subheader("Customer Reviews: Positive vs Negative")
+        st.subheader("Customer Reviews: Positive vs Negative") 
+        fig_reviews = px.bar( 
+            filtered_df, 
+            x='Date', 
+            y='Visits', 
+            color='Review_Sentiment', 
+            color_discrete_map={ 
+                'Positive': '#28A745', 
+                'Negative': '#DC3545' }, 
+            barmode='stack', 
+            template="plotly_dark" ) 
+        
+        st.plotly_chart(fig_reviews, use_container_width=True)
 
-        filtered_df_week = filtered_df.copy()
-        filtered_df_week['Week'] = filtered_df_week['Date'].dt.isocalendar().week
-        agg_reviews = filtered_df_week.groupby(['Week','Review_Sentiment'])['Visits'].sum().reset_index()
 
-        fig_reviews = px.bar(
-          agg_reviews,
-          x='Week',
-          y='Visits',
-          color='Review_Sentiment',
-          barmode='stack',
-          color_discrete_map={
-              'Positive': '#28A745',
-              'Negative': '#DC3545'
-    },
-          template="plotly_dark",
-          hover_data={'Visits':True, 'Review_Sentiment':True, 'Week':True}
-)
-
-        fig_reviews.update_layout(
-          xaxis_title="Week Number",
-          yaxis_title="Total Visits",
-          margin=dict(t=20, b=30, l=40, r=20)
-)
-    fig_reviews.update_layout(height=400)
-    st.plotly_chart(fig_reviews, use_container_width=True)
-
-    with c2:
-        st.subheader("Review Ratings Distribution")
-
-        ratings = np.random.choice(
-            [1, 2, 3, 4, 5],
-            size=100,
-            p=[0.05, 0.05, 0.1, 0.3, 0.5]
-        )
-
-        fig_rate = px.histogram(
-            x=ratings,
-            nbins=5,
-            color_discrete_sequence=['#FFC107'],
-            template="plotly_dark"
-        )
-
-        fig_rate.update_layout(
-            xaxis_title="Star Rating",
-            yaxis_title="Count"
-        )
-        fig_rate.update_layout(height=400)
+    with c2: 
+        st.subheader("Review Ratings Distribution") 
+        ratings = np.random.choice( 
+            [1, 2, 3, 4, 5], 
+            size=100, 
+            p=[0.05, 0.05, 0.1, 0.3, 0.5] ) 
+        fig_rate = px.histogram( 
+            x=ratings, 
+            nbins=5, 
+            color_discrete_sequence=['#FFC107'], 
+            template="plotly_dark" ) 
+        fig_rate.update_layout( 
+            xaxis_title="Star Rating", 
+            yaxis_title="Count" ) 
+        
         st.plotly_chart(fig_rate, use_container_width=True)
 
 # =========================
