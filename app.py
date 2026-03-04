@@ -37,7 +37,7 @@ df_raw = load_data()
 # =========================
 with st.sidebar:
     st.title("🏙️ AroundU")
-    st.caption("Beni Suef Business Intelligence")
+    st.caption("Beni Suef Business Intelligenceeeeeee")
 
     selected = option_menu(
         "Main Menu", 
