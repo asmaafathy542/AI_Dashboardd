@@ -141,7 +141,8 @@ if selected == "Dashboard":
                 'Previous Period': '#6C757D'
     },
             template="plotly_dark"
-)
+    )
+        st.plotly_chart(fig_growth, use_container_width=True)
 
     with col_right:
         st.subheader("🤖 Chatbot Stats")
