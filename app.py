@@ -135,24 +135,12 @@ if selected == "Dashboard":
             y='Value',
             color='Period',
             barmode='group',
-            text='Value',  # تظهر القيمة مباشرة على كل عمود
             text_auto='.2s',
             color_discrete_map={
                 'Selected Period': '#ff4b4b',
-                'Previous Period': '#adb5bd'  # بدل الرمادي الغامق، أفتح شوي
-            },
+                'Previous Period': '#6C757D'
+    },
             template="plotly_dark"
-)
-
-        fig_growth.update_traces(
-            textposition='outside',  # تظهر الأرقام فوق الأعمدة
-            hovertemplate='%{x} - %{y} (%{color})<extra></extra>'
-)
-
-        fig_growth.update_layout(
-            yaxis_title='Total Count',
-            xaxis_title='Metric',
-            margin=dict(t=40, b=40, l=40, r=40)
 )
 
     with col_right:
