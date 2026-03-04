@@ -198,7 +198,7 @@ if selected == "Dashboard":
 elif selected == "Customer Insights":
     st.title("🤖 Customer & Review Analysis")
 
-    c1, c2 = st.columns(2)
+    c1, c2 = st.columns([3, 1])
 
     with c1:
         st.subheader("Customer Reviews: Positive vs Negative")
@@ -226,7 +226,7 @@ elif selected == "Customer Insights":
           yaxis_title="Total Visits",
           margin=dict(t=20, b=30, l=40, r=20)
 )
-
+    fig_reviews.update_layout(height=400)
     st.plotly_chart(fig_reviews, use_container_width=True)
 
     with c2:
@@ -249,7 +249,7 @@ elif selected == "Customer Insights":
             xaxis_title="Star Rating",
             yaxis_title="Count"
         )
-
+        fig_rate.update_layout(height=400)
         st.plotly_chart(fig_rate, use_container_width=True)
 
 # =========================
