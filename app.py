@@ -148,7 +148,7 @@ with st.sidebar:
             "menu-title": {
                 "color": "#FFFFFF", 
                 "font-weight": "bold",
-                "font-size": "20px"
+                "font-size": "15px"
             },
             "icon": {
                 "color": "#61A3BB",
@@ -176,7 +176,6 @@ with st.sidebar:
     min_date = df_raw['Date'].min().to_pydatetime()
     max_date = df_raw['Date'].max().to_pydatetime()
 
-    # الـ date_input سيتأثر بالـ CSS الجديد في الأعلى لمنع اللون الأحمر
     date_range = st.date_input(
         "Choose period:",
         value=(max_date - timedelta(days=30), max_date),
