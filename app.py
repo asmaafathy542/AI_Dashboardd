@@ -10,27 +10,72 @@ st.set_page_config(page_title="AroundU | Owner Dashboard", layout="wide")
 
 st.markdown("""
 <style>
+/* 1. تغيير خلفية الصفحة والعناوين */
+.stApp { background-color: #FFFFFF; }
+h1, h2, h3 { color: #1D3143; }
 
-/* خلفية الصفحة الرئيسية */
-.stApp {
-    background-color: #FFFFFF;
+/* 2. تنسيق الـ Sidebar */
+section[data-testid="stSidebar"] { background-color: #1D3143; }
+section[data-testid="stSidebar"] * { color: white; }
+
+/* 3. تعديل الـ Main Menu (العنوان) */
+[data-testid="stSidebar"] .menu-title {
+    color: #FFFFFF !important;
+    font-weight: bold !important;
+    font-size: 20px !important;
 }
 
-/* العناوين */
-h1, h2, h3 {
-    color: #1D3143;
+/* 4. تعديلات التواريخ (Date Input) - لإزالة اللون الأحمر تماماً */
+
+/* تغيير لون إطار الإدخال عند الضغط عليه */
+div[data-baseweb="input"] > div {
+    border-color: transparent !important;
+}
+div[data-baseweb="input"] > div:focus-within {
+    border-color: #61A3BB !important;
+    box-shadow: none !important;
 }
 
-/* Sidebar */
-section[data-testid="stSidebar"] {
-    background-color: #1D3143;
+/* --- التحكم في التقويم (الدوائر والأيام) --- */
+
+/* لون الدائرة عند اختيار تاريخ (بداية ونهاية المدى) */
+[data-baseweb="calendar"] [aria-selected="true"] {
+    background-color: #2F5C85 !important; 
+    color: white !important;
 }
 
-section[data-testid="stSidebar"] * {
-    color: white;
+/* لون الدائرة عند تمرير الماوس (Hover) على يوم */
+[data-baseweb="calendar"] [role="gridcell"] > div:hover {
+    background-color: #61A3BB !important;
+    color: white !important;
+    border-radius: 50% !important; /* لجعلها دائرة */
 }
 
-/* KPI Cards */
+/* لون المدى المختار (المنطقة بين التاريخين) */
+[data-baseweb="calendar"] [data-highlighted="true"] {
+    background-color: #ECECEC82 !important;
+    color: #1D3143 !important;
+}
+
+/* إخفاء اللون الأحمر الخاص بـ "اليوم الحالي" */
+[data-baseweb="calendar"] [aria-current="date"] {
+    color: #2F5C85 !important;
+    background-color: transparent !important;
+    border: 1px solid #2F5C85 !important;
+}
+
+/* تغيير لون أسهم التنقل بين الشهور */
+[data-baseweb="calendar"] button {
+    color: #1D3143 !important;
+}
+
+/* إزالة الـ focus ring الأحمر */
+button:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* تنسيق الـ KPI Cards (كما كانت) */
 .kpi-card {
     background: #FFFFFF;
     padding: 22px;
@@ -38,72 +83,19 @@ section[data-testid="stSidebar"] * {
     border-left: 6px solid #2F5C85;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     transition: all 0.25s ease;
-    cursor: pointer;
 }
-            
 .kpi-card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
     border-left: 6px solid #61A3BB;
 }
-
-.kpi-title {
-    font-size: 14px;
-    color: #65797E;
-}
-
-.kpi-value {
-    font-size: 34px;
-    font-weight: bold;
-    color: #1D3143;
-}
-
-.kpi-delta {
-    font-size: 14px;
-    color: #61A3BB;
-}
-
-/* --- تعديلات التواريخ (Date Input) --- */
-
-/* إطار الإدخال عند التركيز - نغير اللون الأحمر للأزرق */
-[data-baseweb="input"] > div:focus-within {
-    border-color: #61A3BB !important;
-}
-
-/* خلفية الأيام عند اختيارها (Selected Day) */
-[data-baseweb="calendar"] [aria-selected="true"] {
-    background-color: #2F5C85 !important;
-    color: white !important;
-}
-
-/* خلفية الأيام عند تمرير الماوس (Hover) */
-[data-baseweb="calendar"] [role="gridcell"]:hover {
-    background-color: #61A3BB !important;
-    color: white !important;
-    cursor: pointer;
-}
-
-/* تلوين المدى المختار (المنطقة بين التاريخين) */
-[data-baseweb="calendar"] [data-highlighted="true"] {
-    background-color: #ECECEC82 !important;
-    color: #1D3143 !important;
-}
-
-/* اليوم الحالي (Today) */
-[data-baseweb="calendar"] [aria-current="date"] {
-    color: #2F5C85 !important;
-    font-weight: bold;
-    border: 1px solid #2F5C85 !important;
-}
-
-/* إزالة أي حدود حمراء تظهر عند الاختيار */
-button:focus {
-    outline: none !important;
-    box-shadow: none !important;
-}
+.kpi-title { font-size: 14px; color: #65797E; }
+.kpi-value { font-size: 34px; font-weight: bold; color: #1D3143; }
+.kpi-delta { font-size: 14px; color: #61A3BB; }
 
 </style>
 """, unsafe_allow_html=True)
+
+
 
 
 
@@ -134,55 +126,51 @@ df_raw = load_data()
 # =========================
 # SIDEBAR
 # =========================
-with st.sidebar:
-    st.title("🏙️ AroundU")
-    st.caption("Beni Suef Business Intelligence")
-
-    selected = option_menu(
-        "Main Menu",
-        ["Dashboard", "Customer Insights", "Operations", "Location Logic"],
-        icons=['speedometer2', 'chat-heart', 'clock-history', 'geo-alt'], 
-        menu_icon="cast", 
-        default_index=0,
-        styles={
-            "container": {
-                "background-color": "#1D3143",
-                "padding": "5px"
-            },
-            # --- تعديل عنوان المنيو هنا ---
-            "menu-title": {
-                "color": "#FFFFFF", 
-                "font-weight": "bold",
-                "font-size": "20px"
-            },
-            "icon": {
-                "color": "#61A3BB",
-                "font-size": "18px"
-            },
-            "nav-link": {
-                "color": "white",
-                "font-size": "16px",
-                "text-align": "left",
-                "margin": "2px",
-                "--hover-color": "#619FB8",
-            },
-            "nav-link-selected": {
-                "background-color": "#2F5C85",
-                "color": "white",
-                "font-weight": "bold"
-            }
+selected = option_menu(
+    "Main Menu",
+    ["Dashboard", "Customer Insights", "Operations", "Location Logic"],
+    icons=['speedometer2', 'chat-heart', 'clock-history', 'geo-alt'], 
+    menu_icon="cast", 
+    default_index=0,
+    styles={
+        "container": {
+            "background-color": "#1D3143",
+            "padding": "5px"
+        },
+        # --- تعديل عنوان المنيو هنا ---
+        "menu-title": {
+            "color": "#FFFFFF", 
+            "font-weight": "bold",
+            "font-size": "20px"
+        },
+        "icon": {
+            "color": "#61A3BB",
+            "font-size": "18px"
+        },
+        "nav-link": {
+            "color": "white",
+            "font-size": "16px",
+            "text-align": "left",
+            "margin": "2px",
+            "--hover-color": "#619FB8",
+        },
+        "nav-link-selected": {
+            "background-color": "#2F5C85",
+            "color": "white",
+            "font-weight": "bold"
         }
-    )
+    }
+)
 
-    st.markdown("---")
-    st.write(f"Logged in as: **Puffy and Fluffy**")
+st.markdown("---")
+st.write(f"Logged in as: **Puffy and Fluffy**")
 
-    st.markdown("### 📅 Select Date Range")
-    min_date = df_raw['Date'].min().to_pydatetime()
-    max_date = df_raw['Date'].max().to_pydatetime()
+st.markdown("### 📅 Select Date Range")
+min_date = df_raw['Date'].min().to_pydatetime()
+max_date = df_raw['Date'].max().to_pydatetime()
 
     # الـ date_input سيتأثر بالـ CSS الجديد في الأعلى لمنع اللون الأحمر
-    date_range = st.date_input(
+date_range = st.date_input(
         "Choose period:",
         value=(max_date - timedelta(days=30), max_date),
         min_value=min_date,
