@@ -8,38 +8,55 @@ from datetime import datetime, timedelta
 # --- PAGE SETUP ---
 st.set_page_config(page_title="AroundU | Owner Dashboard", layout="wide")
 
-#KPI card style
 st.markdown("""
 <style>
 
-.kpi-card{
-background:#FFFFFF;
-padding:20px;
-border-radius:12px;
-box-shadow:0 4px 10px rgba(0,0,0,0.05);
-border-top:6px solid #2F5C85;
+/* Main page background */
+.stApp {
+background-color: #FFFFFF;
 }
 
-.kpi-title{
-font-size:14px;
-color:#65797E;
+/* Titles */
+h1, h2, h3 {
+color: #1D3143;
 }
 
-.kpi-value{
-font-size:32px;
-font-weight:bold;
-color:#1D3143;
+/* Sidebar */
+section[data-testid="stSidebar"] {
+background-color: #1D3143;
 }
 
-.kpi-delta{
-font-size:14px;
-color:#61A3BB;
+section[data-testid="stSidebar"] * {
+color: white;
+}
+
+/* KPI Cards */
+.kpi-card {
+background: #FFFFFF;
+padding: 22px;
+border-radius: 14px;
+border-left: 6px solid #2F5C85;
+box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.kpi-title {
+font-size: 14px;
+color: #65797E;
+}
+
+.kpi-value {
+font-size: 34px;
+font-weight: bold;
+color: #1D3143;
+}
+
+.kpi-delta {
+font-size: 14px;
+color: #61A3BB;
 }
 
 </style>
 """, unsafe_allow_html=True)
-
-
 
 # --- MOCK DATA ENGINE ---
 @st.cache_data
@@ -83,18 +100,25 @@ with st.sidebar:
             "background-color": "#1D3143",
             "padding": "5px"
             },
-            "icon": {"color": "#61A3BB", "font-size": "18px"},
+
+            "icon": {
+            "color": "#61A3BB",
+            "font-size": "18px"
+            },
+
             "nav-link": {
-            "color": "#FFFFFF",
+            "color": "white",
             "font-size": "16px",
             "text-align": "left",
             "margin": "2px",
-            "--hover-color": "#2F5C85"
+            "--hover-color": "#2F5C85",
             },
+
             "nav-link-selected": {
             "background-color": "#2F5C85",
-            "color": "#FFFFFF",
-    },
+            "color": "white",
+            "font-weight": "bold"
+            }
 }
     )
 
@@ -248,15 +272,16 @@ if selected == "Dashboard":
            color_discrete_map={
                 'Menu': '#2F5C85',
                 'Hours': '#61A3BB',
-                'Location': '#619FB8',
-                'Pricing': '#65797E'
+                'Location': '#65797E',
+                'Pricing': '#1D3143'
 }
 )
 
         fig_pie.update_traces(
             textinfo='percent+label', 
             textfont_size=14,
-            pull=[0.05, 0.05, 0.05, 0.05] 
+            pull=[0.02, 0.04, 0.02, 0.04]
+            marker=dict(line=dict(color='#FFFFFF', width=2))
 )
 
         fig_pie.update_layout(
@@ -283,9 +308,9 @@ elif selected == "Customer Insights":
             color='Review_Sentiment', 
             color_discrete_map={ 
                 'Positive': '#61A3BB', 
-                'Negative': '#DC3545' }, 
+                'Negative': '#65797E' }, 
             barmode='stack', 
-            template="plotly_dark" ) 
+            template="plotly_white" ) 
         
         st.plotly_chart(fig_reviews, use_container_width=True)
 
@@ -360,6 +385,7 @@ elif selected == "Location Logic":
     fig_map.update_layout(
     coloraxis_colorbar=dict(
         title="Intensity",
+        tickfont=dict(color="#1D3143"),
         tickfont=dict(color="#1D3143")
     )
 )
