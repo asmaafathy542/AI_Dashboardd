@@ -11,12 +11,10 @@ st.set_page_config(page_title="AroundU | Owner Dashboard", layout="wide")
 st.markdown("""
 <style>
 
-/* خلفية الصفحة الرئيسية */
 .stApp {
     background-color: #FFFFFF;
 }
 
-/* العناوين */
 h1, h2, h3 {
     color: #1D3143;
 }
@@ -63,43 +61,143 @@ section[data-testid="stSidebar"] * {
     color: #61A3BB;
 }
 
-/* --- تعديلات التواريخ (Date Input) --- */
+/* ===== DATE INPUT BOX - نص التاريخ يظهر باللون الداكن ===== */
+[data-baseweb="input"] input {
+    color: #1D3143 !important;
+    background-color: #FFFFFF !important;
+    font-weight: 500 !important;
+}
 
-/* إطار الإدخال عند التركيز - نغير اللون الأحمر للأزرق */
-[data-baseweb="input"] > div:focus-within {
+[data-baseweb="input"] {
+    background-color: #FFFFFF !important;
+    border-color: #2F5C85 !important;
+}
+
+[data-baseweb="input"] > div {
+    background-color: #FFFFFF !important;
     border-color: #61A3BB !important;
 }
 
-/* خلفية الأيام عند اختيارها (Selected Day) */
-[data-baseweb="calendar"] [aria-selected="true"] {
-    background-color: #2F5C85 !important;
-    color: white !important;
+[data-baseweb="input"] > div:focus-within {
+    border-color: #2F5C85 !important;
+    box-shadow: 0 0 0 2px rgba(47, 92, 133, 0.2) !important;
 }
 
-/* خلفية الأيام عند تمرير الماوس (Hover) */
-[data-baseweb="calendar"] [role="gridcell"]:hover {
-    background-color: #61A3BB !important;
-    color: white !important;
-    cursor: pointer;
+/* نص التاريخ في الـ date range input */
+[data-baseweb="input"] input::placeholder {
+    color: #65797E !important;
 }
 
-/* تلوين المدى المختار (المنطقة بين التاريخين) */
-[data-baseweb="calendar"] [data-highlighted="true"] {
-    background-color: #ECECEC82 !important;
+/* التأكد من ظهور التاريخ المختار باللون الداكن */
+div[data-baseweb="input"] span {
     color: #1D3143 !important;
 }
 
-/* اليوم الحالي (Today) */
-[data-baseweb="calendar"] [aria-current="date"] {
-    color: #2F5C85 !important;
-    font-weight: bold;
-    border: 1px solid #2F5C85 !important;
+/* ===== CALENDAR STYLING ===== */
+
+/* خلفية الـ calendar */
+[data-baseweb="calendar"] {
+    background-color: #FFFFFF !important;
 }
 
-/* إزالة أي حدود حمراء تظهر عند الاختيار */
+[data-baseweb="popover"] {
+    background-color: #FFFFFF !important;
+}
+
+/* رأس الـ calendar (اسم الشهر والسنة) */
+[data-baseweb="calendar"] [data-baseweb="typography"] {
+    color: #1D3143 !important;
+    font-weight: bold !important;
+}
+
+/* أسماء أيام الأسبوع */
+[data-baseweb="calendar"] [role="columnheader"] {
+    color: #65797E !important;
+    font-weight: 600 !important;
+}
+
+/* أيام الشهر العادية */
+[data-baseweb="calendar"] [role="gridcell"] button {
+    color: #1D3143 !important;
+    background-color: transparent !important;
+    border-radius: 50% !important;
+    border: 2px solid transparent !important;
+    transition: all 0.2s ease !important;
+}
+
+/* Hover على الأيام - border بدل fill */
+[data-baseweb="calendar"] [role="gridcell"] button:hover {
+    background-color: rgba(97, 163, 187, 0.15) !important;
+    border: 2px solid #61A3BB !important;
+    color: #1D3143 !important;
+    cursor: pointer !important;
+}
+
+/* اليوم المختار - لون أزرق بدل الأحمر */
+[data-baseweb="calendar"] [aria-selected="true"] {
+    background-color: #2F5C85 !important;
+    color: #FFFFFF !important;
+    border-radius: 50% !important;
+    border: 2px solid #2F5C85 !important;
+}
+
+[data-baseweb="calendar"] [aria-selected="true"]:hover {
+    background-color: #61A3BB !important;
+    border-color: #61A3BB !important;
+}
+
+/* اليوم الحالي (Today) */
+[data-baseweb="calendar"] [aria-current="date"] button {
+    color: #2F5C85 !important;
+    font-weight: bold !important;
+    border: 2px solid #2F5C85 !important;
+    border-radius: 50% !important;
+}
+
+/* المدى المختار بين التاريخين */
+[data-baseweb="calendar"] [data-highlighted="true"] {
+    background-color: rgba(97, 163, 187, 0.12) !important;
+}
+
+[data-baseweb="calendar"] [data-highlighted="true"] button {
+    color: #1D3143 !important;
+}
+
+/* أزرار السهم للتنقل بين الشهور */
+[data-baseweb="calendar"] button[aria-label*="previous"],
+[data-baseweb="calendar"] button[aria-label*="next"],
+[data-baseweb="calendar"] button[aria-label*="Previous"],
+[data-baseweb="calendar"] button[aria-label*="Next"] {
+    color: #2F5C85 !important;
+    background-color: transparent !important;
+    border: none !important;
+}
+
+[data-baseweb="calendar"] button[aria-label*="previous"]:hover,
+[data-baseweb="calendar"] button[aria-label*="next"]:hover,
+[data-baseweb="calendar"] button[aria-label*="Previous"]:hover,
+[data-baseweb="calendar"] button[aria-label*="Next"]:hover {
+    background-color: rgba(47, 92, 133, 0.1) !important;
+    border-radius: 50% !important;
+}
+
+/* Select dropdowns (Month/Year) في الـ calendar */
+[data-baseweb="calendar"] select,
+[data-baseweb="calendar"] [data-baseweb="select"] {
+    color: #1D3143 !important;
+    background-color: #FFFFFF !important;
+    border-color: #61A3BB !important;
+}
+
+/* إزالة outline أحمر */
 button:focus {
     outline: none !important;
     box-shadow: none !important;
+}
+
+*:focus-visible {
+    outline: 2px solid #61A3BB !important;
+    outline-offset: 2px !important;
 }
 
 </style>
@@ -144,7 +242,6 @@ with st.sidebar:
                 "background-color": "#1D3143",
                 "padding": "5px"
             },
-            # --- تعديل عنوان المنيو هنا ---
             "menu-title": {
                 "color": "#FFFFFF", 
                 "font-weight": "bold",
@@ -287,18 +384,18 @@ if selected == "Dashboard":
                 'Previous Period': '#61A3BB'
             },
             template="plotly_white"    
-)
+        )
 
         fig_growth.update_traces(
             textposition='outside',  
             hovertemplate='%{x} - %{y} (%{color})<extra></extra>'
-)
+        )
 
         fig_growth.update_layout(
             yaxis_title='Total Count',
             xaxis_title='Metric',
             margin=dict(t=40, b=40, l=40, r=40)
-)
+        )
         st.plotly_chart(fig_growth, use_container_width=True)
 
     with col_right:
@@ -321,21 +418,21 @@ if selected == "Dashboard":
                 'Hours': '#61A3BB',
                 'Location': '#65797E',
                 'Pricing': '#1D3143'
-}
-)
+           }
+        )
 
         fig_pie.update_traces(
             textinfo='percent+label', 
             textfont_size=14,
             pull=[0.02, 0.04, 0.02, 0.04],
             marker=dict(line=dict(color='#FFFFFF', width=2))
-)
+        )
 
         fig_pie.update_layout(
             legend_title_text='Query Type',
             margin=dict(t=20, b=20, l=20, r=20),
             height=400
-)
+        )
         st.plotly_chart(fig_pie, use_container_width=True)
 
 # =========================
@@ -360,7 +457,6 @@ elif selected == "Customer Insights":
             template="plotly_white" ) 
         
         st.plotly_chart(fig_reviews, use_container_width=True)
-
 
     with c2: 
         st.subheader("Review Ratings Distribution") 
@@ -430,13 +526,12 @@ elif selected == "Location Logic":
     )
 
     fig_map.update_layout(
-    coloraxis_colorbar=dict(
-        title="Intensity",
-        title_font=dict(color="#1D3143"),   # لاحظ title_font مش titlefont
-        tickfont=dict(color="#1D3143")
-    ),
-    margin={"r":0,"t":0,"l":0,"b":0}
-)
+        coloraxis_colorbar=dict(
+            title="Intensity",
+            title_font=dict(color="#1D3143"),
+            tickfont=dict(color="#1D3143")
+        ),
+        margin={"r":0,"t":0,"l":0,"b":0}
+    )
 
-    fig_map.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
     st.plotly_chart(fig_map, use_container_width=True)
