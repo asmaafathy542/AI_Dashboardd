@@ -13,112 +13,101 @@ st.markdown("""
 
 /* Main page background */
 .stApp {
-background-color: #FFFFFF;
+    background-color: #FFFFFF;
 }
 
 /* Titles */
 h1, h2, h3 {
-color: #1D3143;
+    color: #1D3143;
 }
 
 /* Sidebar */
 section[data-testid="stSidebar"] {
-background-color: #1D3143;
+    background-color: #1D3143;
 }
 
 section[data-testid="stSidebar"] * {
-color: white;
+    color: white;
+}
+
+/* --- التعديل الأول: استهداف عنوان القائمة الرئيسية بطريقة أكثر تحديدًا --- */
+/* نبحث عن أول عنصر <p> داخل حاوية القائمة، والذي يمثل العنوان */
+div[data-testid="stOptionMenu"] p {
+    color: white !important;
+    font-weight: 600 !important;
+    font-size: 18px !important;
 }
 
 /* KPI Cards */
 .kpi-card {
-background: #FFFFFF;
-padding: 22px;
-border-radius: 14px;
-border-left: 6px solid #2F5C85;
-box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-transition: all 0.25s ease;
-cursor: pointer;
-
+    background: #FFFFFF;
+    padding: 22px;
+    border-radius: 14px;
+    border-left: 6px solid #2F5C85;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    transition: all 0.25s ease;
+    cursor: pointer;
 }
             
 .kpi-card:hover {
-transform: translateY(-6px);
-box-shadow: 0 10px 25px rgba(0,0,0,0.12);
-border-left: 6px solid #61A3BB;
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+    border-left: 6px solid #61A3BB;
 }
 
 .kpi-title {
-font-size: 14px;
-color: #65797E;
+    font-size: 14px;
+    color: #65797E;
 }
 
 .kpi-value {
-font-size: 34px;
-font-weight: bold;
-color: #1D3143;
+    font-size: 34px;
+    font-weight: bold;
+    color: #1D3143;
 }
 
 .kpi-delta {
-font-size: 14px;
-color: #61A3BB;
+    font-size: 14px;
+    color: #61A3BB;
 }
 
-/* Date Range Input */
-[data-baseweb="input"] {
-background-color: white !important;
-border-radius: 8px;
+/* --- التعديل الثاني: استهداف ألوان التقويم بمحددات أكثر قوة --- */
+
+/* Date Range Input field */
+[data-baseweb="input"]: # "{"
+    background-color: white !important;
+    border-radius: 8px;
 }
 
-[data-baseweb="input"] input {
-color: #1D3143 !important;
-font-weight: 500;
+[data-baseweb="input"]: # "input {"
+    color: #1D3143 !important;
+    font-weight: 500;
 }
             
-/* calendar hover */
-[data-baseweb="calendar"] button:hover {
-background-color: #61A3BB !important;
-color: white !important;
+/* لون المرور (hover) على أيام التقويم */
+/* نستهدف الأيام التي ليست محددة وليست اليوم الحالي عند المرور عليها */
+[data-baseweb="calendar"]: # "button:not([aria-selected=\"true\"]):not([aria-current=\"date\"]):hover {"
+    background-color: #61A3BB !important; /* لون من اختيارك */
+    color: white !important;
 }
 
-/* selected day */
-[data-baseweb="calendar"] button[aria-selected="true"] {
-background-color: #2F5C85 !important;
-color: white !important;
+/* لون اليوم المحدد في النطاق */
+[data-baseweb="calendar"]: # "button[aria-selected=\"true\"] {"
+    background-color: #2F5C85 !important; /* لون من اختيارك */
+    color: white !important;
 }
 
-/* today */
-[data-baseweb="calendar"] button[aria-current="date"] {
-background-color: #61A3BB !important;
-color: white !important;
+/* لون اليوم الحالي (today) */
+[data-baseweb="calendar"]: # "button[aria-current=\"date\"] {"
+    background-color: #619FB8 !important; /* لون من اختيارك */
+    color: white !important;
 }
             
-/* calendar range selection */
-[data-baseweb="calendar"] div[role="gridcell"] {
-border-radius: 6px;
-}
-            
-            
-/* Main Menu title */
-[data-testid="stSidebar"] label {
-color: white !important;
-font-weight: 600;
-font-size: 18px;
-}
-
-/* remove red focus color from date input */
-input:focus {
-outline: none !important;
-box-shadow: none !important;
-border-color: #61A3BB !important;
-}
-
-/* calendar focus */
-[data-baseweb="calendar"] button:focus {
-outline: none !important;
-box-shadow: none !important;
-background-color: #61A3BB !important;
-color: white !important;
+/* إزالة اللون الأحمر عند التركيز (focus) على حقل التاريخ والتقويم */
+input:focus, [data-baseweb="calendar"] button:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    border-color: #61A3BB !important;
 }
 
 </style>
