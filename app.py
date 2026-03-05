@@ -27,7 +27,7 @@ background-color: #1D3143;
 }
 
 section[data-testid="stSidebar"] * {
-color: white;
+color: #FFFFFF;
 }
 
 /* KPI Cards */
