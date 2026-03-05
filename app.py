@@ -154,10 +154,37 @@ if selected == "Dashboard":
         diff = ((curr - prev) / prev) * 100
         return f"{int(diff)}%"
 
-    m1.metric("Total Visits", int(filtered_df['Visits'].sum()), get_delta_val('Visits'))
-    m2.metric("Place Saved", int(filtered_df['Saves'].sum()), get_delta_val('Saves'))
-    m3.metric("Direction Clicks", int(filtered_df['Directions'].sum()), get_delta_val('Directions'))
-    m4.metric("Call Clicks", int(filtered_df['Calls'].sum()), get_delta_val('Calls'))
+    m1.markdown(f"""
+    <div class="kpi-card">
+    <div class="kpi-title">Total Visits</div>
+    <div class="kpi-value">{int(filtered_df['Visits'].sum())}</div>
+    <div class="kpi-delta">{get_delta_val('Visits')}</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    m2.markdown(f"""
+    <div class="kpi-card">
+    <div class="kpi-title">Place Saved</div>
+    <div class="kpi-value">{int(filtered_df['Saves'].sum())}</div>
+    <div class="kpi-delta">{get_delta_val('Saves')}</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    m3.markdown(f"""
+    <div class="kpi-card">
+    <div class="kpi-title">Direction Clicks</div>
+    <div class="kpi-value">{int(filtered_df['Directions'].sum())}</div>
+    <div class="kpi-delta">{get_delta_val('Directions')}</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    m4.markdown(f"""
+    <div class="kpi-card">
+    <div class="kpi-title">Call Clicks</div>
+    <div class="kpi-value">{int(filtered_df['Calls'].sum())}</div>
+    <div class="kpi-delta">{get_delta_val('Calls')}</div>
+    </div>
+    """, unsafe_allow_html=True)
 
     st.markdown("---")
 
