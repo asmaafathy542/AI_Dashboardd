@@ -93,11 +93,21 @@ div[data-baseweb="input"] span {
     color: #1D3143 !important;
 }
 
-/* ===== CALENDAR STYLING ===== */
+/* ===== CALENDAR - Override CSS Variables بتاعت BaseUI ===== */
 
-/* خلفية الـ calendar */
+/* إعادة تعريف الـ CSS variables المسؤولة عن الألوان */
+:root {
+    --accent: #2F5C85 !important;
+    --accent-light: #61A3BB !important;
+}
+
 [data-baseweb="calendar"] {
     background-color: #FFFFFF !important;
+    --primary: #2F5C85 !important;
+    --primary400: #61A3BB !important;
+    --primary500: #2F5C85 !important;
+    --primary600: #1D3143 !important;
+    --primary700: #1D3143 !important;
 }
 
 [data-baseweb="popover"] {
@@ -110,37 +120,28 @@ div[data-baseweb="input"] span {
     font-weight: 600 !important;
 }
 
-/* أيام الشهر العادية */
-[data-baseweb="calendar"] [role="gridcell"] button {
-    color: #1D3143 !important;
+/* كل buttons في الـ calendar */
+[data-baseweb="calendar"] button {
     background-color: transparent !important;
     border-radius: 50% !important;
     border: 2px solid transparent !important;
+    color: #1D3143 !important;
     transition: all 0.2s ease !important;
 }
 
-/* Hover */
-[data-baseweb="calendar"] [role="gridcell"] button:hover {
+/* Hover - border بدل background */
+[data-baseweb="calendar"] [role="gridcell"] button:hover,
+[data-baseweb="calendar"] [role="option"] button:hover {
     background-color: rgba(97, 163, 187, 0.15) !important;
     border: 2px solid #61A3BB !important;
     color: #1D3143 !important;
 }
 
-/* ===== OVERRIDE SELECTED DAY - أقوى override ممكن ===== */
-/* Streamlit بيحط background كـ inline style، فبنستخدم كل الـ selectors الممكنة */
-
-[data-baseweb="calendar"] div[aria-selected="true"],
-[data-baseweb="calendar"] div[aria-selected="true"] *,
-[data-baseweb="calendar"] [role="gridcell"] div[aria-selected="true"],
-[data-baseweb="calendar"] [role="gridcell"] [aria-selected="true"] {
-    background-color: #2F5C85 !important;
-    background: #2F5C85 !important;
-    color: #FFFFFF !important;
-    border-radius: 50% !important;
-}
-
+/* ===== اليوم المختار - أقوى override ===== */
+[data-baseweb="calendar"] [aria-selected="true"],
 [data-baseweb="calendar"] button[aria-selected="true"],
-[data-baseweb="calendar"] [role="gridcell"] button[aria-selected="true"] {
+[data-baseweb="calendar"] [role="gridcell"] [aria-selected="true"],
+[data-baseweb="calendar"] [role="option"][aria-selected="true"] {
     background-color: #2F5C85 !important;
     background: #2F5C85 !important;
     color: #FFFFFF !important;
@@ -148,20 +149,28 @@ div[data-baseweb="input"] span {
     border: 2px solid #2F5C85 !important;
 }
 
+/* hover على المختار */
+[data-baseweb="calendar"] [aria-selected="true"]:hover,
+[data-baseweb="calendar"] button[aria-selected="true"]:hover {
+    background-color: #61A3BB !important;
+    background: #61A3BB !important;
+    border-color: #61A3BB !important;
+}
+
 /* المدى بين التاريخين */
-[data-baseweb="calendar"] [data-highlighted="true"],
-[data-baseweb="calendar"] div[data-highlighted="true"] {
-    background-color: rgba(97, 163, 187, 0.15) !important;
-    background: rgba(97, 163, 187, 0.15) !important;
+[data-baseweb="calendar"] [data-highlighted="true"] {
+    background-color: rgba(97, 163, 187, 0.12) !important;
+    background: rgba(97, 163, 187, 0.12) !important;
 }
 
 /* اليوم الحالي */
-[data-baseweb="calendar"] [aria-current="date"] button,
+[data-baseweb="calendar"] [aria-current="date"],
 [data-baseweb="calendar"] button[aria-current="date"] {
     color: #2F5C85 !important;
     font-weight: bold !important;
     border: 2px solid #2F5C85 !important;
     border-radius: 50% !important;
+    background-color: transparent !important;
 }
 
 /* أزرار التنقل */
@@ -174,13 +183,24 @@ div[data-baseweb="input"] span {
     border: none !important;
 }
 
-/* إزالة outline أحمر من كل مكان */
+/* ===== إزالة كل الألوان الحمراء ===== */
 button:focus,
 button:focus-visible,
 div:focus,
-[data-baseweb="calendar"] *:focus {
+[data-baseweb="calendar"] *:focus,
+[data-baseweb="calendar"] *:focus-visible {
     outline: none !important;
     box-shadow: none !important;
+}
+
+/* Override inline background عن طريق filter - للأيام المختارة */
+[data-baseweb="calendar"] [style*="background: rgb(255"] {
+    background: #2F5C85 !important;
+    background-color: #2F5C85 !important;
+}
+
+[data-baseweb="calendar"] [style*="background-color: rgb(255"] {
+    background-color: #2F5C85 !important;
 }
 
 </style>
@@ -190,22 +210,46 @@ div:focus,
 st.markdown("""
 <script>
 (function() {
-    function overrideSelectedDays() {
+    function overrideCalendarColors() {
+        // الأيام المختارة
         document.querySelectorAll('[data-baseweb="calendar"] [aria-selected="true"]').forEach(el => {
             el.style.setProperty('background-color', '#2F5C85', 'important');
             el.style.setProperty('background', '#2F5C85', 'important');
             el.style.setProperty('color', 'white', 'important');
             el.style.setProperty('border-radius', '50%', 'important');
+            el.style.setProperty('border', '2px solid #2F5C85', 'important');
+
+            // Hover event
+            el.onmouseenter = function() {
+                this.style.setProperty('background-color', '#61A3BB', 'important');
+                this.style.setProperty('background', '#61A3BB', 'important');
+            };
+            el.onmouseleave = function() {
+                this.style.setProperty('background-color', '#2F5C85', 'important');
+                this.style.setProperty('background', '#2F5C85', 'important');
+            };
         });
-        // أي عنصر داخل المختار
-        document.querySelectorAll('[data-baseweb="calendar"] [aria-selected="true"] *').forEach(el => {
-            el.style.setProperty('color', 'white', 'important');
+
+        // الأيام العادية - hover
+        document.querySelectorAll('[data-baseweb="calendar"] [role="gridcell"] button:not([aria-selected="true"])').forEach(el => {
+            el.onmouseenter = function() {
+                if (this.getAttribute('aria-selected') !== 'true') {
+                    this.style.setProperty('background-color', 'rgba(97,163,187,0.15)', 'important');
+                    this.style.setProperty('border', '2px solid #61A3BB', 'important');
+                }
+            };
+            el.onmouseleave = function() {
+                if (this.getAttribute('aria-selected') !== 'true') {
+                    this.style.setProperty('background-color', 'transparent', 'important');
+                    this.style.setProperty('border', '2px solid transparent', 'important');
+                }
+            };
         });
     }
 
-    const observer = new MutationObserver(overrideSelectedDays);
+    const observer = new MutationObserver(overrideCalendarColors);
     observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['aria-selected', 'style'] });
-    overrideSelectedDays();
+    overrideCalendarColors();
 })();
 </script>
 """, unsafe_allow_html=True)
