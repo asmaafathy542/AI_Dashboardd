@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 
 # --- PAGE SETUP ---
 st.set_page_config(page_title="AroundU | Owner Dashboard", layout="wide")
+
 st.markdown("""
 <style>
 
@@ -62,7 +63,7 @@ section[data-testid="stSidebar"] * {
     color: #61A3BB;
 }
 
-/*(Date Input)  */
+/* --- تعديلات التواريخ (Date Input) --- */
 
 /* إطار الإدخال عند التركيز - نغير اللون الأحمر للأزرق */
 [data-baseweb="input"] > div:focus-within {
@@ -105,8 +106,6 @@ button:focus {
 """, unsafe_allow_html=True)
 
 
-
-
 # --- MOCK DATA ENGINE ---
 @st.cache_data
 def load_data():
@@ -121,11 +120,7 @@ def load_data():
         'Orders': np.random.randint(30, 150, size=365),
         'Chat_Queries': np.random.randint(50, 200, size=365),
         'Bot_Success_Rate': np.random.uniform(70, 95, size=365),
-        'Review_Sentiment': np.random.choice(
-            ['Positive', 'Negative'], 
-            size=365, 
-            p=[0.8, 0.2]
-        )
+        'Review_Sentiment': np.random.choice(['Positive', 'Negative'], size=365, p=[0.8, 0.2])
     })
     return data
 
@@ -135,58 +130,60 @@ df_raw = load_data()
 # SIDEBAR
 # =========================
 with st.sidebar:
-   st.title("🏙️ AroundU")
-   st.caption("Beni Suef Business Intelligence")
-selected = option_menu(
-    "Main Menu",
-    ["Dashboard", "Customer Insights", "Operations", "Location Logic"],
-    icons=['speedometer2', 'chat-heart', 'clock-history', 'geo-alt'], 
-    menu_icon="cast", 
-    default_index=0,
-    styles={
-        "container": {
-            "background-color": "#1D3143",
-            "padding": "5px"
-        },
-        # --- تعديل عنوان المنيو هنا ---
-        "menu-title": {
-            "color": "#FFFFFF", 
-            "font-weight": "bold",
-            "font-size": "20px"
-        },
-        "icon": {
-            "color": "#61A3BB",
-            "font-size": "18px"
-        },
-        "nav-link": {
-            "color": "white",
-            "font-size": "16px",
-            "text-align": "left",
-            "margin": "2px",
-            "--hover-color": "#619FB8",
-        },
-        "nav-link-selected": {
-            "background-color": "#2F5C85",
-            "color": "white",
-            "font-weight": "bold"
+    st.title("🏙️ AroundU")
+    st.caption("Beni Suef Business Intelligence")
+
+    selected = option_menu(
+        "Main Menu",
+        ["Dashboard", "Customer Insights", "Operations", "Location Logic"],
+        icons=['speedometer2', 'chat-heart', 'clock-history', 'geo-alt'], 
+        menu_icon="cast", 
+        default_index=0,
+        styles={
+            "container": {
+                "background-color": "#1D3143",
+                "padding": "5px"
+            },
+            # --- تعديل عنوان المنيو هنا ---
+            "menu-title": {
+                "color": "#FFFFFF", 
+                "font-weight": "bold",
+                "font-size": "20px"
+            },
+            "icon": {
+                "color": "#61A3BB",
+                "font-size": "18px"
+            },
+            "nav-link": {
+                "color": "white",
+                "font-size": "16px",
+                "text-align": "left",
+                "margin": "2px",
+                "--hover-color": "#619FB8",
+            },
+            "nav-link-selected": {
+                "background-color": "#2F5C85",
+                "color": "white",
+                "font-weight": "bold"
+            }
         }
-    }
-)
+    )
 
-st.markdown("---")
-st.write(f"Logged in as: **Puffy and Fluffy**")
+    st.markdown("---")
+    st.write(f"Logged in as: **Puffy and Fluffy**")
 
-st.markdown("### 📅 Select Date Range")
-min_date = df_raw['Date'].min().to_pydatetime()
-max_date = df_raw['Date'].max().to_pydatetime()
+    st.markdown("### 📅 Select Date Range")
+    min_date = df_raw['Date'].min().to_pydatetime()
+    max_date = df_raw['Date'].max().to_pydatetime()
 
     # الـ date_input سيتأثر بالـ CSS الجديد في الأعلى لمنع اللون الأحمر
-date_range = st.date_input(
+    date_range = st.date_input(
         "Choose period:",
         value=(max_date - timedelta(days=30), max_date),
         min_value=min_date,
         max_value=max_date
     )
+
 # =========================
 # FILTER LOGIC
 # =========================
