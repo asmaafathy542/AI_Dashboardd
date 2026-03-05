@@ -449,11 +449,14 @@ elif selected == "Location Logic":
         height=700
     )
 
-    fig_map.update_traces(colorbar=dict(
-    title="Intensity",
-    titlefont=dict(color="#1D3143"),
-    tickfont=dict(color="#1D3143")
-))
+    fig_map.update_layout(
+    coloraxis_colorbar=dict(
+        title="Intensity",
+        title_font=dict(color="#1D3143"),   # لاحظ title_font مش titlefont
+        tickfont=dict(color="#1D3143")
+    ),
+    margin={"r":0,"t":0,"l":0,"b":0}
+)
 
     fig_map.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
     st.plotly_chart(fig_map, use_container_width=True)
