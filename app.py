@@ -120,7 +120,7 @@ with st.sidebar:
     st.caption("Beni Suef Business Intelligence")
 
     selected = option_menu(
-        "<span style='color:white;font-weight:600;'>Main Menu</span>",
+        "Main Menu",
         ["Dashboard", "Customer Insights", "Operations", "Location Logic"],
         icons=['speedometer2', 'chat-heart', 'clock-history', 'geo-alt'], 
         menu_icon="cast", 
