@@ -27,7 +27,7 @@ background-color: #1D3143;
 }
 
 section[data-testid="stSidebar"] * {
-color: #FFFFFF;
+color: white;
 }
 
 /* KPI Cards */
@@ -98,12 +98,29 @@ color: white !important;
 border-radius: 6px;
 }
             
-[data-testid="stSidebar"] h1,
-[data-testid="stSidebar"] h2,
-[data-testid="stSidebar"] h3 {
-color: #FFFFFF !important;
+            
+/* Main Menu title */
+[data-testid="stSidebar"] label {
+color: white !important;
 font-weight: 600;
+font-size: 18px;
 }
+
+/* remove red focus color from date input */
+input:focus {
+outline: none !important;
+box-shadow: none !important;
+border-color: #61A3BB !important;
+}
+
+/* calendar focus */
+[data-baseweb="calendar"] button:focus {
+outline: none !important;
+box-shadow: none !important;
+background-color: #61A3BB !important;
+color: white !important;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
