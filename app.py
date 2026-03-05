@@ -23,7 +23,7 @@ color: #1D3143;
 
 /* Sidebar */
 section[data-testid="stSidebar"] {
-background-color: #1D3143;
+background-color: #2F5C85;
 }
 
 section[data-testid="stSidebar"] * {
