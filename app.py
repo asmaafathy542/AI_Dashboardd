@@ -280,7 +280,7 @@ if selected == "Dashboard":
         fig_pie.update_traces(
             textinfo='percent+label', 
             textfont_size=14,
-            pull=[0.02, 0.04, 0.02, 0.04]
+            pull=[0.02, 0.04, 0.02, 0.04],
             marker=dict(line=dict(color='#FFFFFF', width=2))
 )
 
