@@ -104,12 +104,6 @@ div[data-baseweb="input"] span {
     background-color: #FFFFFF !important;
 }
 
-/* رأس الـ calendar (اسم الشهر والسنة) */
-[data-baseweb="calendar"] [data-baseweb="typography"] {
-    color: #1D3143 !important;
-    font-weight: bold !important;
-}
-
 /* أسماء أيام الأسبوع */
 [data-baseweb="calendar"] [role="columnheader"] {
     color: #65797E !important;
@@ -125,45 +119,52 @@ div[data-baseweb="input"] span {
     transition: all 0.2s ease !important;
 }
 
-/* Hover على الأيام - border بدل fill */
+/* Hover */
 [data-baseweb="calendar"] [role="gridcell"] button:hover {
     background-color: rgba(97, 163, 187, 0.15) !important;
     border: 2px solid #61A3BB !important;
     color: #1D3143 !important;
-    cursor: pointer !important;
 }
 
-/* اليوم المختار - لون أزرق بدل الأحمر */
-[data-baseweb="calendar"] [aria-selected="true"] {
+/* ===== OVERRIDE SELECTED DAY - أقوى override ممكن ===== */
+/* Streamlit بيحط background كـ inline style، فبنستخدم كل الـ selectors الممكنة */
+
+[data-baseweb="calendar"] div[aria-selected="true"],
+[data-baseweb="calendar"] div[aria-selected="true"] *,
+[data-baseweb="calendar"] [role="gridcell"] div[aria-selected="true"],
+[data-baseweb="calendar"] [role="gridcell"] [aria-selected="true"] {
     background-color: #2F5C85 !important;
+    background: #2F5C85 !important;
+    color: #FFFFFF !important;
+    border-radius: 50% !important;
+}
+
+[data-baseweb="calendar"] button[aria-selected="true"],
+[data-baseweb="calendar"] [role="gridcell"] button[aria-selected="true"] {
+    background-color: #2F5C85 !important;
+    background: #2F5C85 !important;
     color: #FFFFFF !important;
     border-radius: 50% !important;
     border: 2px solid #2F5C85 !important;
 }
 
-[data-baseweb="calendar"] [aria-selected="true"]:hover {
-    background-color: #61A3BB !important;
-    border-color: #61A3BB !important;
+/* المدى بين التاريخين */
+[data-baseweb="calendar"] [data-highlighted="true"],
+[data-baseweb="calendar"] div[data-highlighted="true"] {
+    background-color: rgba(97, 163, 187, 0.15) !important;
+    background: rgba(97, 163, 187, 0.15) !important;
 }
 
-/* اليوم الحالي (Today) */
-[data-baseweb="calendar"] [aria-current="date"] button {
+/* اليوم الحالي */
+[data-baseweb="calendar"] [aria-current="date"] button,
+[data-baseweb="calendar"] button[aria-current="date"] {
     color: #2F5C85 !important;
     font-weight: bold !important;
     border: 2px solid #2F5C85 !important;
     border-radius: 50% !important;
 }
 
-/* المدى المختار بين التاريخين */
-[data-baseweb="calendar"] [data-highlighted="true"] {
-    background-color: rgba(97, 163, 187, 0.12) !important;
-}
-
-[data-baseweb="calendar"] [data-highlighted="true"] button {
-    color: #1D3143 !important;
-}
-
-/* أزرار السهم للتنقل بين الشهور */
+/* أزرار التنقل */
 [data-baseweb="calendar"] button[aria-label*="previous"],
 [data-baseweb="calendar"] button[aria-label*="next"],
 [data-baseweb="calendar"] button[aria-label*="Previous"],
@@ -173,34 +174,40 @@ div[data-baseweb="input"] span {
     border: none !important;
 }
 
-[data-baseweb="calendar"] button[aria-label*="previous"]:hover,
-[data-baseweb="calendar"] button[aria-label*="next"]:hover,
-[data-baseweb="calendar"] button[aria-label*="Previous"]:hover,
-[data-baseweb="calendar"] button[aria-label*="Next"]:hover {
-    background-color: rgba(47, 92, 133, 0.1) !important;
-    border-radius: 50% !important;
-}
-
-/* Select dropdowns (Month/Year) في الـ calendar */
-[data-baseweb="calendar"] select,
-[data-baseweb="calendar"] [data-baseweb="select"] {
-    color: #1D3143 !important;
-    background-color: #FFFFFF !important;
-    border-color: #61A3BB !important;
-}
-
-/* إزالة outline أحمر */
-button:focus {
+/* إزالة outline أحمر من كل مكان */
+button:focus,
+button:focus-visible,
+div:focus,
+[data-baseweb="calendar"] *:focus {
     outline: none !important;
     box-shadow: none !important;
 }
 
-*:focus-visible {
-    outline: 2px solid #61A3BB !important;
-    outline-offset: 2px !important;
-}
-
 </style>
+""", unsafe_allow_html=True)
+
+# JavaScript لتغيير لون الأيام المختارة - يتغلب على inline styles بتاعت Streamlit
+st.markdown("""
+<script>
+(function() {
+    function overrideSelectedDays() {
+        document.querySelectorAll('[data-baseweb="calendar"] [aria-selected="true"]').forEach(el => {
+            el.style.setProperty('background-color', '#2F5C85', 'important');
+            el.style.setProperty('background', '#2F5C85', 'important');
+            el.style.setProperty('color', 'white', 'important');
+            el.style.setProperty('border-radius', '50%', 'important');
+        });
+        // أي عنصر داخل المختار
+        document.querySelectorAll('[data-baseweb="calendar"] [aria-selected="true"] *').forEach(el => {
+            el.style.setProperty('color', 'white', 'important');
+        });
+    }
+
+    const observer = new MutationObserver(overrideSelectedDays);
+    observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['aria-selected', 'style'] });
+    overrideSelectedDays();
+})();
+</script>
 """, unsafe_allow_html=True)
 
 
