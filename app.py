@@ -46,9 +46,23 @@ with st.sidebar:
         menu_icon="cast", 
         default_index=0,
         styles={
-            "container": {"background-color": "#1e1e1e"},
-            "nav-link-selected": {"background-color": "#ff4b4b"},
-        }
+            "container": {
+            "background-color": "#1D3143",
+            "padding": "5px"
+            },
+            "icon": {"color": "#61A3BB", "font-size": "18px"},
+            "nav-link": {
+            "color": "#FFFFFF",
+            "font-size": "16px",
+            "text-align": "left",
+            "margin": "2px",
+            "--hover-color": "#2F5C85"
+            },
+            "nav-link-selected": {
+            "background-color": "#2F5C85",
+            "color": "#FFFFFF",
+    },
+}
     )
 
     st.markdown("---")
@@ -138,10 +152,10 @@ if selected == "Dashboard":
             text='Value', 
             text_auto='.2s',
             color_discrete_map={
-                'Selected Period': '#ff4b4b',
-                'Previous Period': '#adb5bd' 
-    },
-            template="plotly_dark"
+                'Selected Period': '#2F5C85',
+                'Previous Period': '#61A3BB'
+            },
+            template="plotly_white"    
 )
 
         fig_growth.update_traces(
@@ -172,11 +186,11 @@ if selected == "Dashboard":
            hole=0.5,
            color='Type',
            color_discrete_map={
-                'Menu': '#FF6B6B',
-                'Hours': '#4ECDC4',
-                'Location': '#FFD93D',
-                'Pricing': '#556270'
-    }
+                'Menu': '#2F5C85',
+                'Hours': '#61A3BB',
+                'Location': '#619FB8',
+                'Pricing': '#65797E'
+}
 )
 
         fig_pie.update_traces(
@@ -208,7 +222,7 @@ elif selected == "Customer Insights":
             y='Visits', 
             color='Review_Sentiment', 
             color_discrete_map={ 
-                'Positive': '#28A745', 
+                'Positive': '#61A3BB', 
                 'Negative': '#DC3545' }, 
             barmode='stack', 
             template="plotly_dark" ) 
@@ -225,8 +239,8 @@ elif selected == "Customer Insights":
         fig_rate = px.histogram( 
             x=ratings, 
             nbins=5, 
-            color_discrete_sequence=['#FFC107'], 
-            template="plotly_dark" ) 
+            color_discrete_sequence=['#2F5C85'], 
+            template="plotly_white" ) 
         fig_rate.update_layout( 
             xaxis_title="Star Rating", 
             yaxis_title="Count" ) 
@@ -247,9 +261,12 @@ elif selected == "Operations":
         heat_data,
         x=hours,
         y=days,
-        color_continuous_scale='GnBu',
+        color_continuous_scale=[
+            "#ECECEC",
+            "#61A3BB",
+            "#2F5C85"],
         aspect="auto",
-        template="plotly_dark"
+        template="plotly_white"
     )
 
     st.plotly_chart(fig_heat, use_container_width=True)
@@ -279,6 +296,13 @@ elif selected == "Location Logic":
         mapbox_style="open-street-map",
         height=700
     )
+
+    fig_map.update_layout(
+    coloraxis_colorbar=dict(
+        title="Intensity",
+        tickfont=dict(color="#1D3143")
+    )
+)
 
     fig_map.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
     st.plotly_chart(fig_map, use_container_width=True)
