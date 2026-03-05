@@ -11,12 +11,12 @@ st.set_page_config(page_title="AroundU | Owner Dashboard", layout="wide")
 st.markdown("""
 <style>
 
-/* Main page background */
+/* خلفية الصفحة الرئيسية */
 .stApp {
     background-color: #FFFFFF;
 }
 
-/* Titles */
+/* العناوين */
 h1, h2, h3 {
     color: #1D3143;
 }
@@ -28,14 +28,6 @@ section[data-testid="stSidebar"] {
 
 section[data-testid="stSidebar"] * {
     color: white;
-}
-
-/* --- التعديل الأول: استهداف عنوان القائمة الرئيسية بطريقة أكثر تحديدًا --- */
-/* نبحث عن أول عنصر <p> داخل حاوية القائمة، والذي يمثل العنوان */
-div[data-testid="stOptionMenu"] p {
-    color: white !important;
-    font-weight: 600 !important;
-    font-size: 18px !important;
 }
 
 /* KPI Cards */
@@ -71,47 +63,48 @@ div[data-testid="stOptionMenu"] p {
     color: #61A3BB;
 }
 
-/* --- التعديل الثاني: استهداف ألوان التقويم بمحددات أكثر قوة --- */
+/* --- تعديلات التواريخ (Date Input) --- */
 
-/* Date Range Input field */
-[data-baseweb="input"]: # "{"
-    background-color: white !important;
-    border-radius: 8px;
+/* إطار الإدخال عند التركيز - نغير اللون الأحمر للأزرق */
+[data-baseweb="input"] > div:focus-within {
+    border-color: #61A3BB !important;
 }
 
-[data-baseweb="input"]: # "input {"
+/* خلفية الأيام عند اختيارها (Selected Day) */
+[data-baseweb="calendar"] [aria-selected="true"] {
+    background-color: #2F5C85 !important;
+    color: white !important;
+}
+
+/* خلفية الأيام عند تمرير الماوس (Hover) */
+[data-baseweb="calendar"] [role="gridcell"]:hover {
+    background-color: #61A3BB !important;
+    color: white !important;
+    cursor: pointer;
+}
+
+/* تلوين المدى المختار (المنطقة بين التاريخين) */
+[data-baseweb="calendar"] [data-highlighted="true"] {
+    background-color: #ECECEC82 !important;
     color: #1D3143 !important;
-    font-weight: 500;
-}
-            
-/* لون المرور (hover) على أيام التقويم */
-/* نستهدف الأيام التي ليست محددة وليست اليوم الحالي عند المرور عليها */
-[data-baseweb="calendar"]: # "button:not([aria-selected=\"true\"]):not([aria-current=\"date\"]):hover {"
-    background-color: #61A3BB !important; /* لون من اختيارك */
-    color: white !important;
 }
 
-/* لون اليوم المحدد في النطاق */
-[data-baseweb="calendar"]: # "button[aria-selected=\"true\"] {"
-    background-color: #2F5C85 !important; /* لون من اختيارك */
-    color: white !important;
+/* اليوم الحالي (Today) */
+[data-baseweb="calendar"] [aria-current="date"] {
+    color: #2F5C85 !important;
+    font-weight: bold;
+    border: 1px solid #2F5C85 !important;
 }
 
-/* لون اليوم الحالي (today) */
-[data-baseweb="calendar"]: # "button[aria-current=\"date\"] {"
-    background-color: #619FB8 !important; /* لون من اختيارك */
-    color: white !important;
-}
-            
-/* إزالة اللون الأحمر عند التركيز (focus) على حقل التاريخ والتقويم */
-input:focus, [data-baseweb="calendar"] button:focus {
+/* إزالة أي حدود حمراء تظهر عند الاختيار */
+button:focus {
     outline: none !important;
     box-shadow: none !important;
-    border-color: #61A3BB !important;
 }
 
 </style>
 """, unsafe_allow_html=True)
+
 
 
 # --- MOCK DATA ENGINE ---
@@ -153,45 +146,48 @@ with st.sidebar:
         default_index=0,
         styles={
             "container": {
-            "background-color": "#1D3143",
-            "padding": "5px"
+                "background-color": "#1D3143",
+                "padding": "5px"
             },
-
+            # --- تعديل عنوان المنيو هنا ---
+            "menu-title": {
+                "color": "#FFFFFF", 
+                "font-weight": "bold",
+                "font-size": "20px"
+            },
             "icon": {
-            "color": "#61A3BB",
-            "font-size": "18px"
+                "color": "#61A3BB",
+                "font-size": "18px"
             },
-
             "nav-link": {
-            "color": "white",
-            "font-size": "16px",
-            "text-align": "left",
-            "margin": "2px",
-            "--hover-color": "#619FB8",
+                "color": "white",
+                "font-size": "16px",
+                "text-align": "left",
+                "margin": "2px",
+                "--hover-color": "#619FB8",
             },
-
             "nav-link-selected": {
-            "background-color": "#2F5C85",
-            "color": "white",
-            "font-weight": "bold"
+                "background-color": "#2F5C85",
+                "color": "white",
+                "font-weight": "bold"
             }
-}
+        }
     )
 
     st.markdown("---")
-    st.write("Logged in as: **Puffy and Fluffy**")
+    st.write(f"Logged in as: **Puffy and Fluffy**")
 
     st.markdown("### 📅 Select Date Range")
     min_date = df_raw['Date'].min().to_pydatetime()
     max_date = df_raw['Date'].max().to_pydatetime()
 
+    # الـ date_input سيتأثر بالـ CSS الجديد في الأعلى لمنع اللون الأحمر
     date_range = st.date_input(
         "Choose period:",
         value=(max_date - timedelta(days=30), max_date),
         min_value=min_date,
         max_value=max_date
     )
-
 # =========================
 # FILTER LOGIC
 # =========================
