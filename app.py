@@ -55,8 +55,20 @@ font-size: 14px;
 color: #61A3BB;
 }
 
+/* Date Range Input */
+[data-baseweb="input"] {
+background-color: white !important;
+border-radius: 8px;
+}
+
+[data-baseweb="input"] input {
+color: #1D3143 !important;
+font-weight: 500;
+}
+
 </style>
 """, unsafe_allow_html=True)
+
 
 # --- MOCK DATA ENGINE ---
 @st.cache_data
@@ -111,7 +123,7 @@ with st.sidebar:
             "font-size": "16px",
             "text-align": "left",
             "margin": "2px",
-            "--hover-color": "#2F5C85",
+            "--hover-color": "#619FB8",
             },
 
             "nav-link-selected": {
