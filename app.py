@@ -65,6 +65,24 @@ border-radius: 8px;
 color: #1D3143 !important;
 font-weight: 500;
 }
+            
+/* Calendar selected day */
+[data-baseweb="calendar"] [aria-selected="true"] {
+background-color: #61A3BB !important;
+color: white !important;
+border-radius: 6px;
+}
+
+/* Calendar hover day */
+[data-baseweb="calendar"] td:hover {
+background-color: #619FB8 !important;
+color: white !important;
+}
+            
+[data-baseweb="calendar"] {
+background-color: #FFFFFF;
+border-radius: 10px;
+}
 
 </style>
 """, unsafe_allow_html=True)
@@ -102,7 +120,7 @@ with st.sidebar:
     st.caption("Beni Suef Business Intelligence")
 
     selected = option_menu(
-        "Main Menu", 
+        "<span style='color:white;font-weight:600;'>Main Menu</span>",
         ["Dashboard", "Customer Insights", "Operations", "Location Logic"],
         icons=['speedometer2', 'chat-heart', 'clock-history', 'geo-alt'], 
         menu_icon="cast", 
