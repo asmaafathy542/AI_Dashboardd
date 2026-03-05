@@ -385,7 +385,7 @@ elif selected == "Location Logic":
     fig_map.update_layout(
     coloraxis_colorbar=dict(
         title="Intensity",
-        tickfont=dict(color="#1D3143"),
+        titlefont=dict(color="#1D3143"),
         tickfont=dict(color="#1D3143")
     )
 )
