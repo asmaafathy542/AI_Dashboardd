@@ -8,6 +8,39 @@ from datetime import datetime, timedelta
 # --- PAGE SETUP ---
 st.set_page_config(page_title="AroundU | Owner Dashboard", layout="wide")
 
+#KPI card style
+st.markdown("""
+<style>
+
+.kpi-card{
+background:#FFFFFF;
+padding:20px;
+border-radius:12px;
+box-shadow:0 4px 10px rgba(0,0,0,0.05);
+border-top:6px solid #2F5C85;
+}
+
+.kpi-title{
+font-size:14px;
+color:#65797E;
+}
+
+.kpi-value{
+font-size:32px;
+font-weight:bold;
+color:#1D3143;
+}
+
+.kpi-delta{
+font-size:14px;
+color:#61A3BB;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+
+
 # --- MOCK DATA ENGINE ---
 @st.cache_data
 def load_data():
