@@ -37,6 +37,15 @@ padding: 22px;
 border-radius: 14px;
 border-left: 6px solid #2F5C85;
 box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+transition: all 0.25s ease;
+cursor: pointer;
+
+}
+            
+.kpi-card:hover {
+transform: translateY(-6px);
+box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+border-left: 6px solid #61A3BB;
 }
 
 .kpi-title {
