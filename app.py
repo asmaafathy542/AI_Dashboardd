@@ -23,7 +23,7 @@ color: #1D3143;
 
 /* Sidebar */
 section[data-testid="stSidebar"] {
-background-color: #2F5C85;
+background-color: #1D3143;
 }
 
 section[data-testid="stSidebar"] * {
@@ -66,24 +66,35 @@ color: #1D3143 !important;
 font-weight: 500;
 }
             
-/* Calendar selected day */
-[data-baseweb="calendar"] [aria-selected="true"] {
+/* calendar hover */
+[data-baseweb="calendar"] button:hover {
 background-color: #61A3BB !important;
 color: white !important;
-border-radius: 6px;
 }
 
-/* Calendar hover day */
-[data-baseweb="calendar"] td:hover {
-background-color: #619FB8 !important;
+/* selected day */
+[data-baseweb="calendar"] button[aria-selected="true"] {
+background-color: #2F5C85 !important;
+color: white !important;
+}
+
+/* today */
+[data-baseweb="calendar"] button[aria-current="date"] {
+background-color: #61A3BB !important;
 color: white !important;
 }
             
-[data-baseweb="calendar"] {
-background-color: #FFFFFF;
-border-radius: 10px;
+/* calendar range selection */
+[data-baseweb="calendar"] div[role="gridcell"] {
+border-radius: 6px;
 }
-
+            
+[data-testid="stSidebar"] h1,
+[data-testid="stSidebar"] h2,
+[data-testid="stSidebar"] h3 {
+color: #FFFFFF !important;
+font-weight: 600;
+}
 </style>
 """, unsafe_allow_html=True)
 
